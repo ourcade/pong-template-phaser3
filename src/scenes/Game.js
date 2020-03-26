@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 import { GameBackground, GameOver } from '../consts/SceneKeys'
 import * as Colors from '../consts/Colors'
+import * as AudioKeys from '../consts/AudioKeys'
 
 import { PressStart2P } from '../consts/Fonts'
 
@@ -36,8 +37,10 @@ class Game extends Phaser.Scene
 		this.physics.add.existing(this.ball)
 		this.ball.body.setCircle(10)
 		this.ball.body.setBounce(1, 1)
+		this.ball.body.setMaxSpeed(400)
 
 		this.ball.body.setCollideWorldBounds(true, 1, 1)
+		this.ball.body.onWorldBounds = true
 
 		this.paddleLeft = this.add.rectangle(50, 250, 30, 100, Colors.White, 1)
 		this.physics.add.existing(this.paddleLeft, true)
@@ -45,8 +48,10 @@ class Game extends Phaser.Scene
 		this.paddleRight = this.add.rectangle(750, 250, 30, 100, Colors.White, 1)
 		this.physics.add.existing(this.paddleRight, true)
 		
-		this.physics.add.collider(this.paddleLeft, this.ball)
-		this.physics.add.collider(this.paddleRight, this.ball)
+		this.physics.add.collider(this.paddleLeft, this.ball, this.handlePaddleBallCollision, undefined, this)
+		this.physics.add.collider(this.paddleRight, this.ball, this.handlePaddleBallCollision, undefined, this)
+
+		this.physics.world.on('worldbounds', this.handleBallWorldBoundsCollision, this)
 
 		const scoreStyle = {
 			fontSize: 48,
@@ -76,6 +81,29 @@ class Game extends Phaser.Scene
 		this.processPlayerInput()
 		this.updateAI()
 		this.checkScore()
+	}
+
+	handleBallWorldBoundsCollision(body, up, down, left, right)
+	{
+		if (left || right)
+		{
+			return
+		}
+
+		this.sound.play(AudioKeys.PongPlop)
+	}
+
+	handlePaddleBallCollision(paddle, ball)
+	{
+		this.sound.play(AudioKeys.PongBeep)
+
+		/** @type {Phaser.Physics.Arcade.Body} */
+		const body = this.ball.body
+		const vel = body.velocity
+		vel.x *= 1.05
+		vel.y *= 1.05
+
+		body.setVelocity(vel.x, vel.y)
 	}
 
 	processPlayerInput()
@@ -148,7 +176,7 @@ class Game extends Phaser.Scene
 			this.incrementLeftScore()
 		}
 
-		const maxScore = 1
+		const maxScore = 7
 		if (this.leftScore >= maxScore)
 		{
 			this.gameState = GameState.PlayerWon

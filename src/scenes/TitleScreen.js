@@ -3,6 +3,8 @@ import Phaser from 'phaser'
 import { Game } from '../consts/SceneKeys'
 import { PressStart2P } from '../consts/Fonts'
 
+import * as AudioKeys from '../consts/AudioKeys'
+
 export default class TitleScreen extends Phaser.Scene
 {
 	preload()
@@ -24,6 +26,7 @@ export default class TitleScreen extends Phaser.Scene
 		.setOrigin(0.5)
 
 		this.input.keyboard.once('keydown-SPACE', () => {
+			this.sound.play(AudioKeys.PongBeep)
 			this.scene.start(Game)
 		})
 	}
