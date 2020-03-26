@@ -11,14 +11,20 @@ This is a simple Pong template in Phaser 3 built with modern JavaScript.
 
 We start with an empty folder and create the game from there. You'll see the entire process of mistakes, thinking, and looking at the documentation!
 
+[Play the demo here.](https://ourcade.co/templates/pong-template)
+
 ## Getting Started
 
-Clone this repository and run:
+Clone this repository with `git-lfs` and run:
 
 ```bash
 npm install
 npm run start
 ```
+
+If you don't have `git-lfs` installed then get it here: https://git-lfs.github.com
+
+All binary files like sound effects are stored with `git-lfs`. Alternatively, you can download a zip of the project.
 
 ## Credits
 
