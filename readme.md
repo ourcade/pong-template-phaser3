@@ -24,7 +24,7 @@ npm run start
 
 If you don't have `git-lfs` installed then get it here: https://git-lfs.github.com
 
-All binary files like sound effects are stored with `git-lfs`. Alternatively, you can download a zip of the project.
+All binary files like sound effects are stored with `git-lfs`. Alternatively, you can [download a zip of the project from the latest release here](https://github.com/ourcade/pong-template-phaser3/releases/tag/latest).
 
 ## Credits
 
